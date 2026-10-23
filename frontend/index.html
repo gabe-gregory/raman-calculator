@@ -1,0 +1,417 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="data:,">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Raman Calculator | Scientific Computing</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.plot.ly/plotly-3.3.0.min.js"></script>
+    <script src="app.js" defer></script>
+</head>
+
+<body>
+    <header class="header">
+        <div>
+            <h1>Raman Calculator</h1>
+            <p>High-order a.c. Stark shifts and Raman transitions</p>
+        </div>
+        <nav>
+            <a href="https://github.com/gabe-gregory/raman-calculator"
+               target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+        </nav>
+    </header>
+
+    <div class="workspace">
+        <aside class="sidebar">
+            <h2>Atom / laser parameters</h2>
+
+            <form id="parameters">
+                <div class="general-parameters">
+                    <div class="parameter-field species-field">
+                        <label for="species">Ion species</label>
+                        <select id="species">
+                            <option value="40Ca">⁴⁰Ca⁺</option>
+                            <option value="88Sr">⁸⁸Sr⁺</option>
+                            <option value="138Ba">¹³⁸Ba⁺</option>
+                        </select>
+                    </div>
+
+                    <div class="parameter-field">
+                        <label for="wavelength_nm">Laser wavelength (nm)</label>
+                        <input id="wavelength_nm" type="number"
+                               value="976" min="0.001" step="any">
+                    </div>
+
+                    <div class="parameter-field">
+                        <label for="p_detuning_thz">P state detuning (THz)</label>
+                        <input id="p_detuning_thz" type="number" step="any">
+                    </div>
+
+                    <div class="parameter-field">
+                        <label for="zeeman_mhz">Zeeman splitting (MHz)</label>
+                        <input id="zeeman_mhz" type="number"
+                               value="2.63" step="any">
+                    </div>
+
+                    <div class="parameter-field">
+                        <label for="beam_detuning_mhz">Beam detuning (MHz)</label>
+                        <input id="beam_detuning_mhz" type="number"
+                               value="5" step="any">
+                    </div>
+                </div>
+
+                <div class="beam-table">
+                    <div class="beam-table-heading">
+                        <span></span>
+                        <strong>Beam 1</strong>
+                        <strong>Beam 2</strong>
+                    </div>
+
+                    <div class="beam-table-row">
+                        <label for="red_power_mw">Power (mW)</label>
+                        <input id="red_power_mw" type="number"
+                               value="100" min="0" step="any">
+                        <input id="blue_power_mw" type="number"
+                               value="100" min="0" step="any"
+                               aria-label="Beam 2 power">
+                    </div>
+
+                    <div class="beam-table-row">
+                        <label for="red_waist_um">Waist (µm)</label>
+                        <input id="red_waist_um" type="number"
+                               value="30" min="0.01" step="any">
+                        <input id="blue_waist_um" type="number"
+                               value="30" min="0.01" step="any"
+                               aria-label="Beam 2 waist">
+                    </div>
+
+                    <div class="beam-table-row">
+                        <label for="red_sigma_plus">σ⁺ fraction</label>
+                        <input id="red_sigma_plus" type="number"
+                               value="0" min="0" max="1" step="0.001">
+                        <input id="blue_sigma_plus" type="number"
+                               value="0.333" min="0" max="1" step="0.001"
+                               aria-label="Beam 2 sigma plus fraction">
+                    </div>
+
+                    <div class="beam-table-row">
+                        <label for="red_pi">π fraction</label>
+                        <input id="red_pi" type="number"
+                               value="0" min="0" max="1" step="0.001">
+                        <input id="blue_pi" type="number"
+                               value="0.333" min="0" max="1" step="0.001"
+                               aria-label="Beam 2 pi fraction">
+                    </div>
+
+                    <div class="beam-table-row">
+                        <label for="red_sigma_minus">σ⁻ fraction</label>
+                        <input id="red_sigma_minus" type="number"
+                               value="1.000" readonly tabindex="-1"
+                               aria-label="Beam 1 sigma minus fraction">
+                        <input id="blue_sigma_minus" type="number"
+                               value="0.334" readonly tabindex="-1"
+                               aria-label="Beam 2 sigma minus fraction">
+                    </div>
+
+                    <p id="polarization-warning"
+                       class="polarization-warning"
+                       role="alert" hidden></p>
+                </div>
+
+                <div class="lightshift-beam-section">
+                    <div class="lightshift-mode" role="radiogroup" aria-label="Lightshift beam">
+                        <label><input type="radio" name="lightshift-mode" value="off" checked> No lightshift beam</label>
+                        <label><input type="radio" name="lightshift-mode" value="on"> Lightshift beam</label>
+                    </div>
+                    <div id="lightshift-controls" hidden>
+                        <div class="lightshift-fields">
+                            <div class="parameter-field">
+                                <label for="ls_wavelength_nm">Laser wavelength (nm)</label>
+                                <input id="ls_wavelength_nm" type="number" value="976" min="0.001" step="any">
+                            </div>
+                            <div class="parameter-field">
+                                <label for="ls_p_detuning_thz">P state detuning (THz)</label>
+                                <input id="ls_p_detuning_thz" type="number" step="any">
+                            </div>
+                        </div>
+                        <div class="lightshift-fields">
+                            <div class="parameter-field">
+                                <label for="ls_power_mw">Power (mW)</label>
+                                <input id="ls_power_mw" type="number" value="100" min="0" step="any">
+                            </div>
+                            <div class="parameter-field">
+                                <label for="ls_waist_um">Waist (µm)</label>
+                                <input id="ls_waist_um" type="number" value="30" min="0.01" step="any">
+                            </div>
+                            <div class="parameter-field">
+                                <label for="ls_sigma_plus">σ⁺ fraction</label>
+                                <input id="ls_sigma_plus" type="number" value="0" min="0" max="1" step="0.001">
+                            </div>
+                            <div class="parameter-field">
+                                <label for="ls_pi">π fraction</label>
+                                <input id="ls_pi" type="number" value="0" min="0" max="1" step="0.001">
+                            </div>
+                            <div class="parameter-field">
+                                <label for="ls_sigma_minus">σ⁻ fraction</label>
+                                <input id="ls_sigma_minus" type="number" value="1.000" readonly tabindex="-1">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" id="calculate">
+                    Calculate Analytics
+                </button>
+            </form>
+        </aside>
+
+        <main class="results">
+            <div class="results-tabs" role="tablist"
+                 aria-label="Calculator results">
+                <button type="button" id="tab-stark"
+                        class="results-tab active" role="tab"
+                        aria-selected="true" aria-controls="panel-stark">
+                    a.c. Stark Shifts
+                </button>
+                <button type="button" id="tab-rabi"
+                        class="results-tab" role="tab"
+                        aria-selected="false" aria-controls="panel-rabi">
+                    Rabi Frequencies
+                </button>
+            </div>
+
+            <!-- Stark-shift tab -->
+            <section id="panel-stark" class="tab-panel active"
+                     role="tabpanel" aria-labelledby="tab-stark">
+                <div class="results-heading">
+                    <div>
+                        <h2>a.c. Stark shifts</h2>
+                        <p>Energy shifts across the D₅/₂ manifold</p>
+                    </div>
+                    <span id="status" role="status"
+                          aria-live="polite">Ready</span>
+                </div>
+
+                <!-- Primary Stark-shift results -->
+                <div class="plot-grid stark-primary-grid">
+                    <section class="plot-card stark-primary-card">
+                        <h3>Total a.c. Stark shifts</h3>
+                        <div id="plot-total" class="plot"></div>
+                    </section>
+
+                    <section class="plot-card stark-primary-card">
+                        <h3>Neighboring-state energy splittings</h3>
+                        <div id="plot-splittings" class="plot"></div>
+                    </section>
+                </div>
+
+                <!-- Collapsible supplementary plots -->
+                <details id="stark-breakdown" class="stark-breakdown">
+                    <summary class="stark-breakdown-heading">
+                        <span class="stark-breakdown-heading-text">
+                            <strong>Order-by-order breakdown</strong>
+                            <span>Second-, fourth-, sixth-, and eighth-order contributions</span>
+                        </span>
+                        <span class="stark-breakdown-chevron" aria-hidden="true"></span>
+                    </summary>
+
+                    <div class="plot-grid stark-supplementary-grid">
+                        <section class="plot-card stark-supplementary-card">
+                            <h3>Second order</h3>
+                            <div id="plot2" class="plot"></div>
+                        </section>
+                        <section class="plot-card stark-supplementary-card">
+                            <h3>Fourth order</h3>
+                            <div id="plot4" class="plot"></div>
+                        </section>
+                        <section class="plot-card stark-supplementary-card">
+                            <h3>Sixth order</h3>
+                            <div id="plot6" class="plot"></div>
+                        </section>
+                        <section class="plot-card stark-supplementary-card">
+                            <h3>Eighth order</h3>
+                            <div id="plot8" class="plot"></div>
+                        </section>
+                    </div>
+                </details>
+            </section>
+
+            <!-- Rabi-frequency tab -->
+            <section id="panel-rabi" class="tab-panel"
+                     role="tabpanel" aria-labelledby="tab-rabi" hidden>
+
+                <div class="results-heading">
+                    <div>
+                        <h2>Rabi frequencies</h2>
+                        <p>Transitions across the D₅/₂ manifold</p>
+                    </div>
+                    <span id="rabi-status" role="status"
+                          aria-live="polite">Ready</span>
+                </div>
+
+                <!-- Display and calculation controls -->
+                <div class="rabi-controls">
+                    <div class="rabi-display-field">
+                        <span class="rabi-display-label">Display</span>
+                        <div class="rabi-radio-group">
+                            <label class="rabi-radio-option">
+                                <input type="radio"
+                                       name="rabi-display-mode"
+                                       value="frequency" checked>
+                                <span>Rabi frequency (kHz)</span>
+                            </label>
+                            <label class="rabi-radio-option">
+                                <input type="radio"
+                                       name="rabi-display-mode"
+                                       value="pi-time">
+                                <span>π time (µs)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Selected transition ABOVE both visualizations -->
+                <section class="selected-transition-card">
+                    <div class="selected-transition-top">
+                        <div class="selected-transition-identity">
+                            <h3>Selected transition</h3>
+                            <p id="selected-transition-label">
+                                +5/2 ↔ −1/2
+                            </p>
+                        </div>
+
+                        <div class="selected-transition-details">
+                            <div>
+                                <span class="detail-label">
+                                    Rabi frequency
+                                </span>
+                                <strong id="selected-rabi-frequency">—</strong>
+                            </div>
+                            <div>
+                                <span class="detail-label">π time</span>
+                                <strong id="selected-pi-time">—</strong>
+                            </div>       
+                            <div>
+                                <span class="detail-label">Predicted resonance (2nd order)</span>
+                                <strong id="selected-resonance">—</strong>
+                            </div>
+                        </div>
+
+                        <button type="button" id="simulate-transition">
+                            Simulate transition
+                        </button>
+                    </div>
+
+
+                    <!-- Simulation mode: keep the existing transition row unchanged -->
+                    <div class="simulation-mode-switch" role="radiogroup" aria-label="Simulation mode">
+                        <label><input type="radio" name="simulation-mode" value="auto" checked> Auto simulation</label>
+                        <label><input type="radio" name="simulation-mode" value="manual"> Manual simulation</label>
+                    </div>
+                    <div id="manual-simulation-controls" class="manual-simulation-controls" hidden>
+                        <div class="manual-simulation-row">
+                            <div class="manual-row-heading">Spectroscopy scan</div>
+                            <label>Interrogation time (µs)<input id="manual-interrogation-us" type="number" min="0.000001" step="any" value="10"></label>
+                            <label>Start detuning (MHz)<input id="manual-scan-start-mhz" type="number" step="any" value="3.6"></label>
+                            <label>Stop detuning (MHz)<input id="manual-scan-stop-mhz" type="number" step="any" value="3.8"></label>
+                            <label>Scan points<input id="manual-scan-points" type="number" min="3" max="2000" step="1" value="50"></label>
+                            <button id="manual-spectroscopy-button" type="button">Simulate spectroscopy</button>
+                        </div>
+                        <div class="manual-simulation-row">
+                            <div class="manual-row-heading">Time dynamics</div>
+                            <label>Beam detuning (MHz)<input id="manual-dynamics-detuning-mhz" type="number" step="any" value="3.7"></label>
+                            <label>Total time (µs)<input id="manual-dynamics-time-us" type="number" min="0.000001" step="any" value="100"></label>
+                            <button id="manual-dynamics-button" type="button">Simulate dynamics</button>
+                        </div>
+                    </div>
+
+                    <!-- Simulation progress, shown during simulation -->
+                    <div id="simulation-progress"
+                         class="simulation-progress"
+                         role="status" aria-live="polite" hidden>
+
+                        <div class="simulation-progress-item">
+                            <div class="simulation-progress-heading">
+                                <span>Spectroscopy scan</span>
+                                <span id="spectroscopy-progress-text">0%</span>
+                            </div>
+                            <progress id="spectroscopy-progress"
+                                      max="100" value="0"></progress>
+                        </div>
+
+                        <div class="simulation-progress-item">
+                            <div class="simulation-progress-heading">
+                                <span>Time dynamics</span>
+                                <span id="dynamics-progress-text">0%</span>
+                            </div>
+                            <progress id="dynamics-progress"
+                                      max="100" value="0"></progress>
+                        </div>
+
+                        <p id="simulation-progress-message">
+                            Waiting to start...
+                        </p>
+                    </div>
+                </section>
+
+                <!-- Two-column visualization layout -->
+                <div class="rabi-visualization-grid">
+
+                    <!-- LEFT: Hexagon -->
+                    <section class="rabi-card">
+                        <div class="rabi-card-heading">
+                            <h3>Raman transitions</h3>
+                            <p>Click a transition to select it</p>
+                        </div>
+
+                        <div class="rabi-hexagon-area">
+                            <div id="rabi-hexagon"
+                                 class="rabi-hexagon"
+                                 aria-label="Interactive Raman transition hexagon">
+                            </div>
+                        </div>
+
+                        <div class="rabi-legend">
+                            <span class="legend-item">
+                                <span class="legend-line two-photon"></span>
+                                2-photon
+                            </span>
+                            <span class="legend-item">
+                                <span class="legend-line four-photon"></span>
+                                4-photon
+                            </span>
+                            <span class="legend-item">
+                                <span class="legend-line six-photon"></span>
+                                6-photon
+                            </span>
+                        </div>
+                    </section>
+
+                    <!-- RIGHT: Two vertically stacked plots -->
+                    <section id="simulation-results"
+                             class="simulation-results">
+
+                        <div class="simulation-plot-grid">
+                            <section class="simulation-plot-card">
+                                <h4>Spectroscopy scan</h4>
+                                <div id="spectroscopy-plot"
+                                     class="population-plot"></div>
+                            </section>
+
+                            <section class="simulation-plot-card">
+                                <h4>Time dynamics</h4>
+                                <div id="population-plot"
+                                     class="population-plot"></div>
+                            </section>
+                        </div>
+
+                    </section>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

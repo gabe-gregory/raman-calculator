@@ -1,0 +1,1323 @@
+
+:root {
+    --background: #f5f7fb;
+    --surface: #ffffff;
+    --border: #e1e7ef;
+    --text: #1b2b42;
+    --muted: #708198;
+    --accent: #326da8;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: var(--background);
+    color: var(--text);
+    font-family: Inter, -apple-system, BlinkMacSystemFont,
+                 "Segoe UI", sans-serif;
+    font-size: 14px;
+}
+
+/* -----------------------------------
+   Header
+----------------------------------- */
+
+.header {
+    height: 86px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 18px 36px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 23px;
+    font-weight: 650;
+    letter-spacing: -0.7px;
+}
+
+.header p {
+    margin: 6px 0 0;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.header a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* -----------------------------------
+   Main layout
+----------------------------------- */
+
+.workspace {
+    display: grid;
+    grid-template-columns: 370px minmax(0, 1fr);
+    min-height: calc(100vh - 86px);
+}
+
+/* -----------------------------------
+   Sidebar
+----------------------------------- */
+
+.sidebar {
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    padding: 26px;
+}
+
+.sidebar h2 {
+    margin: 0 0 24px;
+    font-size: 15px;
+}
+
+.sidebar h3 {
+    font-size: 13px;
+    margin: 28px 0 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+}
+
+.sidebar label {
+    display: block;
+    color: #53647a;
+    font-size: 12px;
+    font-weight: 500;
+    margin: 14px 0 6px;
+}
+
+.sidebar input,
+.sidebar select {
+    width: 100%;
+    padding: 10px 11px;
+    border: 1px solid #d5deea;
+    border-radius: 7px;
+    background: #fbfcfe;
+    color: var(--text);
+    font: inherit;
+}
+
+.sidebar input:focus,
+.sidebar select:focus {
+    outline: 2px solid #b6d0ee;
+    border-color: var(--accent);
+}
+
+/* -----------------------------------
+   General atom / laser parameters
+----------------------------------- */
+
+.general-parameters {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.parameter-field {
+    min-width: 0;
+}
+
+.sidebar .parameter-field label {
+    margin-top: 0;
+    min-height: 30px;
+    display: flex;
+    align-items: flex-end;
+}
+
+.sidebar .parameter-field input,
+.sidebar .parameter-field select {
+    width: 100%;
+    min-width: 0;
+}
+
+/* -----------------------------------
+   Centered ion species selector
+----------------------------------- */
+
+.general-parameters .species-field {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sidebar .species-field label {
+    min-height: 0;
+    margin-top: 0;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.sidebar .species-field select {
+    width: 65%;
+    max-width: 220px;
+    text-align: center;
+    text-align-last: center;
+}
+
+/* -----------------------------------
+   Beam parameter table
+----------------------------------- */
+
+.beam-table {
+    margin-top: 28px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border);
+}
+
+.beam-table-heading,
+.beam-table-row {
+    display: grid;
+    grid-template-columns: 94px minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: 9px;
+    align-items: center;
+}
+
+.beam-table-heading {
+    margin-bottom: 12px;
+}
+
+.beam-table-heading strong {
+    text-align: center;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.beam-table-row {
+    margin-bottom: 12px;
+}
+
+.sidebar .beam-table-row label {
+    margin: 0;
+    font-size: 11px;
+    line-height: 1.3;
+}
+
+.sidebar .beam-table-row input {
+    min-width: 0;
+    padding: 9px 6px;
+    font-size: 12px;
+    text-align: center;
+}
+
+/* -----------------------------------
+   Calculated sigma-minus fields
+----------------------------------- */
+
+.sidebar .beam-table-row input[readonly] {
+    background: #edf2f7;
+    color: #65758a;
+    cursor: default;
+    border-color: #e1e7ef;
+}
+
+/* -----------------------------------
+   Invalid polarization inputs
+----------------------------------- */
+
+.sidebar .beam-table-row input.invalid-polarization {
+    border-color: #d84a4a;
+    background: #fff5f5;
+}
+
+/* -----------------------------------
+   Polarization warning
+----------------------------------- */
+
+.polarization-warning {
+    color: #b42318;
+    background: #fff1f0;
+    border: 1px solid #f2c4c0;
+    border-radius: 7px;
+    padding: 10px;
+    font-size: 12px;
+    line-height: 1.5;
+    margin-top: 12px;
+}
+
+.polarization-warning[hidden] {
+    display: none;
+}
+
+/* -----------------------------------
+   Calculate button
+----------------------------------- */
+
+button {
+    width: 100%;
+    margin-top: 28px;
+    padding: 12px;
+    border: 0;
+    border-radius: 7px;
+    background: var(--accent);
+    color: white;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #24598d;
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+/* -----------------------------------
+   Results area
+----------------------------------- */
+
+.results {
+    padding: 32px;
+    min-width: 0;
+}
+
+.results-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.results-heading h2 {
+    margin: 0;
+    font-size: 21px;
+    letter-spacing: -0.4px;
+}
+
+.results-heading p {
+    margin: 7px 0 0;
+    color: var(--muted);
+}
+
+#status,
+#rabi-status {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+/* -----------------------------------
+   Stark-shift plots
+----------------------------------- */
+
+.plot-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.plot-card {
+    min-width: 0;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(20, 45, 80, 0.025);
+}
+
+.plot-card h3 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.plot {
+    width: 100%;
+    height: 310px;
+}
+
+/* -----------------------------------
+   Results tabs
+----------------------------------- */
+
+.results-tabs {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 28px;
+    border-bottom: 1px solid var(--border);
+}
+
+.results-tab {
+    width: auto;
+    margin: 0;
+    padding: 11px 4px 13px;
+    border: none;
+    border-bottom: 2px solid transparent;
+    border-radius: 0;
+    background: transparent;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.results-tab:hover {
+    background: transparent;
+    color: var(--accent);
+}
+
+.results-tab.active {
+    background: transparent;
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+}
+
+.results-tab:focus-visible {
+    outline: 2px solid #b6d0ee;
+    outline-offset: 3px;
+}
+
+.tab-panel[hidden] {
+    display: none !important;
+}
+
+/* -----------------------------------
+   Rabi-frequency controls
+----------------------------------- */
+
+.rabi-controls {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.rabi-display-field {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.rabi-display-label {
+    color: #53647a;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.rabi-radio-group {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.rabi-radio-option {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--text);
+    white-space: nowrap;
+}
+
+.rabi-radio-option input[type="radio"] {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    accent-color: var(--accent);
+    cursor: pointer;
+}
+
+#calculate-rabi {
+    width: auto;
+    min-width: 205px;
+    margin: 0;
+    padding: 11px 16px;
+}
+
+/* -----------------------------------
+   Rabi hexagon card
+----------------------------------- */
+
+.rabi-card {
+    min-width: 0;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(20, 45, 80, 0.025);
+}
+
+.rabi-card-heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.rabi-card-heading h3 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.rabi-card-heading p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.rabi-hexagon {
+    width: 100%;
+    max-width: 760px;
+    margin: 8px auto 0;
+}
+
+.rabi-hexagon svg {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.rabi-hexagon svg g[role="button"] {
+    cursor: pointer;
+}
+
+.rabi-hexagon svg g[role="button"]:focus-visible {
+    outline: none;
+}
+
+/* -----------------------------------
+   Photon-order legend
+----------------------------------- */
+
+.rabi-legend {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 22px;
+    padding-top: 16px;
+    margin-top: 8px;
+    border-top: 1px solid var(--border);
+}
+
+.legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #53647a;
+    font-size: 12px;
+}
+
+.legend-line {
+    display: inline-block;
+    width: 28px;
+    height: 4px;
+    border-radius: 3px;
+}
+
+.legend-line.two-photon {
+    background: #64748b;
+}
+
+.legend-line.four-photon {
+    background: #2563eb;
+}
+
+.legend-line.six-photon {
+    background: #d946ef;
+}
+
+/* -----------------------------------
+   Selected transition
+----------------------------------- */
+
+.selected-transition-card {
+    margin-top: 20px;
+    padding: 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(20, 45, 80, 0.025);
+}
+
+.selected-transition-card h3 {
+    margin: 0 0 12px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+#selected-transition-label {
+    margin: 0 0 18px;
+    color: var(--accent);
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.selected-transition-details {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.selected-transition-details > div {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: #fbfcfe;
+}
+
+.detail-label {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.selected-transition-details strong {
+    color: var(--text);
+    font-size: 18px;
+    font-weight: 600;
+}
+
+#simulate-transition {
+    width: auto;
+    margin-top: 20px;
+    padding: 11px 18px;
+}
+
+#simulate-transition:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+/* -----------------------------------
+   Numerical simulation
+----------------------------------- */
+
+.simulation-results {
+    margin-top: 20px;
+    padding: 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(20, 45, 80, 0.025);
+}
+
+.simulation-results[hidden] {
+    display: none !important;
+}
+
+.simulation-results h3 {
+    margin: 0 0 20px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* -----------------------------------
+   Live simulation progress bars
+----------------------------------- */
+
+.simulation-progress {
+    display: grid;
+    gap: 18px;
+    margin-bottom: 24px;
+    padding: 20px;
+    background: #fbfcfe;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+}
+
+.simulation-progress-item {
+    min-width: 0;
+}
+
+.simulation-progress-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 9px;
+    color: #53647a;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.simulation-progress progress {
+    display: block;
+    width: 100%;
+    height: 12px;
+    border: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    appearance: none;
+    -webkit-appearance: none;
+    background: #e5ebf3;
+    accent-color: var(--accent);
+}
+
+.simulation-progress progress::-webkit-progress-bar {
+    background: #e5ebf3;
+    border-radius: 8px;
+}
+
+.simulation-progress progress::-webkit-progress-value {
+    background: var(--accent);
+    border-radius: 8px;
+    transition: width 0.15s ease;
+}
+
+.simulation-progress progress::-moz-progress-bar {
+    background: var(--accent);
+    border-radius: 8px;
+}
+
+#simulation-progress-message {
+    margin: 0;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+/* -----------------------------------
+   Simulation plots
+----------------------------------- */
+
+.simulation-plot-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    align-items: stretch;
+}
+
+.simulation-plot-card {
+    min-width: 0;
+    padding: 16px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: #ffffff;
+}
+
+.simulation-plot-card h4 {
+    margin: 0 0 12px;
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.population-plot {
+    width: 100%;
+    height: 420px;
+    min-width: 0;
+}
+
+.simulation-plot-card .js-plotly-plot,
+.simulation-plot-card .plot-container {
+    max-width: 100%;
+}
+
+/* -----------------------------------
+   Original responsive layout
+----------------------------------- */
+
+@media (max-width: 1350px) {
+    .simulation-plot-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 1100px) {
+    .plot-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 900px) {
+    .rabi-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    #calculate-rabi {
+        width: 100%;
+    }
+}
+
+@media (max-width: 720px) {
+    .header {
+        padding: 16px 20px;
+    }
+
+    .workspace {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        border-right: 0;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .results {
+        padding: 20px;
+    }
+
+    .results-tabs {
+        gap: 16px;
+    }
+
+    .results-tab {
+        padding: 11px 2px;
+        font-size: 12px;
+    }
+
+    .rabi-card,
+    .selected-transition-card,
+    .simulation-results {
+        padding: 16px;
+    }
+
+    .rabi-card-heading {
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .rabi-legend {
+        gap: 14px;
+    }
+
+    .selected-transition-details {
+        grid-template-columns: 1fr;
+    }
+
+    .simulation-progress {
+        padding: 14px;
+    }
+
+    .simulation-plot-card {
+        padding: 10px;
+    }
+
+    .population-plot {
+        height: 350px;
+    }
+}
+
+
+/* ==================================================
+   NEW RABI PANE LAYOUT
+   Selected transition above the hexagon and plots
+   ================================================== */
+
+/* -----------------------------------
+   Selected transition horizontal layout
+----------------------------------- */
+
+.selected-transition-card {
+    margin-top: 0;
+    margin-bottom: 20px;
+    padding: 20px;
+}
+
+.selected-transition-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.selected-transition-identity {
+    flex: 1 1 160px;
+    min-width: 0;
+}
+
+.selected-transition-identity h3 {
+    margin: 0 0 10px;
+}
+
+#selected-transition-label {
+    margin: 0;
+}
+
+.selected-transition-details {
+    flex: 2 1 260px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.selected-transition-details > div {
+    padding: 12px 14px;
+}
+
+#simulate-transition {
+    flex: 0 0 auto;
+    width: auto;
+    margin: 0;
+    padding: 12px 18px;
+    white-space: nowrap;
+}
+
+/* -----------------------------------
+   Two-column visualization layout
+----------------------------------- */
+
+.rabi-visualization-grid {
+    --visualization-height: 580px;
+
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 20px;
+    align-items: stretch;
+    width: 100%;
+    min-width: 0;
+}
+
+.rabi-visualization-grid > .rabi-card,
+.rabi-visualization-grid > .simulation-results {
+    height: var(--visualization-height);
+    min-width: 0;
+    margin: 0;
+}
+
+/* -----------------------------------
+   Left column: Raman hexagon
+----------------------------------- */
+
+.rabi-visualization-grid .rabi-card {
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    overflow: hidden;
+}
+
+.rabi-visualization-grid .rabi-card-heading {
+    flex: 0 0 auto;
+}
+
+.rabi-hexagon-area {
+    flex: 1 1 auto;
+    min-height: 0;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.rabi-visualization-grid .rabi-hexagon {
+    width: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.rabi-visualization-grid .rabi-hexagon svg {
+    display: block;
+    width: 100% !important;
+    height: auto !important;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.rabi-visualization-grid .rabi-legend {
+    flex: 0 0 auto;
+    padding-top: 12px;
+    margin-top: 8px;
+}
+
+/* -----------------------------------
+   Right column: stacked simulation plots
+----------------------------------- */
+
+.rabi-visualization-grid .simulation-results {
+    display: block;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+    overflow: hidden;
+}
+
+.rabi-visualization-grid .simulation-plot-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 16px;
+    height: 100%;
+    min-height: 0;
+}
+
+.rabi-visualization-grid .simulation-plot-card {
+    padding: 4px;
+}
+
+.rabi-visualization-grid .simulation-plot-card h4 {
+    flex: 0 0 auto;
+    margin: 0 0 6px;
+}
+
+.rabi-visualization-grid .population-plot {
+    flex: 1 1 auto;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    min-width: 0;
+}
+
+.rabi-visualization-grid .js-plotly-plot,
+.rabi-visualization-grid .plot-container {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+/* -----------------------------------
+   Progress bars above visualizations
+----------------------------------- */
+
+.selected-transition-card .simulation-progress {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px 20px;
+    margin: 18px 0 0;
+    padding: 14px;
+}
+
+.selected-transition-card .simulation-progress[hidden] {
+    display: none !important;
+}
+
+.selected-transition-card #simulation-progress-message {
+    grid-column: 1 / -1;
+}
+
+/* -----------------------------------
+   New layout responsive behavior
+----------------------------------- */
+
+@media (max-width: 1450px) {
+    .rabi-visualization-grid {
+        --visualization-height: 520px;
+        gap: 14px;
+    }
+
+    .rabi-visualization-grid .rabi-card {
+        padding: 12px;
+    }
+
+    .rabi-visualization-grid .simulation-plot-card {
+        padding: 10px;
+    }
+}
+
+@media (max-width: 1050px) {
+    .rabi-visualization-grid {
+        --visualization-height: auto;
+        grid-template-columns: 1fr;
+    }
+
+    .rabi-visualization-grid > .rabi-card {
+        height: auto;
+        min-height: 450px;
+    }
+
+    .rabi-visualization-grid .rabi-hexagon {
+        max-width: 650px;
+    }
+
+    .rabi-visualization-grid > .simulation-results {
+        height: 660px;
+    }
+}
+
+@media (max-width: 720px) {
+    .selected-transition-top {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 16px;
+    }
+
+    .selected-transition-identity,
+    .selected-transition-details {
+        flex: none;
+        width: 100%;
+    }
+
+    #simulate-transition {
+        width: 100%;
+    }
+
+    .selected-transition-card .simulation-progress {
+        grid-template-columns: 1fr;
+    }
+
+    .rabi-visualization-grid > .simulation-results {
+        height: 600px;
+    }
+
+    .rabi-visualization-grid .simulation-plot-card {
+        padding: 4px;
+    }
+}
+
+/* Larger Rabi hexagon with reduced surrounding whitespace */
+
+.rabi-visualization-grid .rabi-card {
+    padding: 8px;
+}
+
+.rabi-visualization-grid .rabi-hexagon-area {
+    flex: 1 1 auto;
+    min-height: 0;
+    width: 100%;
+}
+
+.rabi-visualization-grid .rabi-hexagon {
+    width: 100%;
+    max-width: none;
+    max-height: 100%;
+    margin: 0;
+}
+
+.rabi-visualization-grid .rabi-hexagon svg {
+    width: 100% !important;
+    height: 100% !important;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.rabi-visualization-grid .rabi-card-heading {
+    margin-bottom: 0;
+}
+
+.rabi-visualization-grid .rabi-legend {
+    padding-top: 6px;
+    margin-top: 2px;
+}
+
+
+/* Enlarge hexagon within its existing card */
+
+.rabi-visualization-grid .rabi-hexagon {
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
+    max-width: 100%;
+    max-height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.rabi-visualization-grid .rabi-hexagon svg {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+
+/* -----------------------------------
+   Stark-shift primary and supplementary results
+----------------------------------- */
+
+.stark-primary-grid {
+    margin-bottom: 22px;
+}
+
+.stark-primary-card {
+    border-color: #cad9ea;
+    box-shadow: 0 3px 14px rgba(20, 45, 80, 0.045);
+}
+
+.stark-primary-card h3 {
+    font-size: 15px;
+}
+
+.stark-primary-card .plot {
+    height: 370px;
+}
+
+.stark-breakdown {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: #f0f4f9;
+    padding: 0 18px;
+}
+
+.stark-breakdown-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+    padding: 18px 2px;
+    list-style: none;
+}
+
+.stark-breakdown-heading::-webkit-details-marker {
+    display: none;
+}
+
+.stark-breakdown-heading-text {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.stark-breakdown-heading-text strong {
+    font-size: 14px;
+    color: var(--text);
+}
+
+.stark-breakdown-heading-text > span {
+    font-size: 12px;
+    color: var(--muted);
+}
+
+.stark-breakdown-chevron {
+    width: 10px;
+    height: 10px;
+    border-right: 2px solid var(--muted);
+    border-bottom: 2px solid var(--muted);
+    transform: rotate(45deg);
+    transition: transform 0.15s ease;
+    flex-shrink: 0;
+}
+
+.stark-breakdown[open] .stark-breakdown-chevron {
+    transform: rotate(225deg);
+}
+
+.stark-supplementary-grid {
+    padding: 0 0 18px;
+    gap: 14px;
+}
+
+.stark-supplementary-card {
+    padding: 12px;
+}
+
+.stark-supplementary-card h3 {
+    font-size: 13px;
+}
+
+.stark-supplementary-card .plot {
+    height: 225px;
+}
+
+@media (max-width: 1100px) {
+    .stark-primary-grid,
+    .stark-supplementary-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Manual simulation controls — only visible when selected */
+.simulation-mode-switch { display:flex; flex-wrap:wrap; gap:20px; padding-top:16px; margin-top:16px; border-top:1px solid var(--border); }
+.simulation-mode-switch label { display:flex; align-items:center; gap:7px; cursor:pointer; font-size:13px; }
+.manual-simulation-controls { margin-top:14px; }
+.manual-simulation-controls[hidden] { display:none !important; }
+.manual-simulation-row {
+    display: grid;
+    align-items: end;
+    gap: 12px;
+    padding: 15px 0;
+    border-top: 1px solid var(--border);
+}
+
+/* Spectroscopy: four inputs + button */
+.manual-simulation-row:first-child {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) auto;
+}
+
+/* Dynamics: two inputs + button */
+.manual-simulation-row:last-child {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) auto;
+}
+
+.manual-row-heading {
+    grid-column: 1 / -1;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.manual-simulation-row label {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--muted);
+    min-width: 0;
+}
+
+.manual-simulation-row input {
+    width: 100%;
+    min-width: 0;
+    padding: 10px;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    color: var(--text);
+    background: var(--surface);
+    font: inherit;
+}
+
+.manual-simulation-row button {
+    padding: 11px 16px;
+    white-space: nowrap;
+}
+
+.manual-simulation-row button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+/* Allow controls to wrap on smaller screens */
+@media (max-width: 900px) {
+    .manual-simulation-row:first-child,
+    .manual-simulation-row:last-child {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .manual-simulation-row button {
+        grid-column: 1 / -1;
+    }
+}
+.manual-simulation-row button:disabled { opacity:.45; cursor:not-allowed; }
+
+.selected-transition-card .simulation-progress-item[hidden] { display:none !important; }
+
+/* Manual simulation: full-width progress bar */
+
+.selected-transition-card:has(
+    input[name="simulation-mode"][value="manual"]:checked
+) .simulation-progress-item:not([hidden]) {
+    grid-column: 1 / -1;
+    width: 100%;
+    max-width: none;
+}
+
+/* Optional lightshift beam */
+.lightshift-beam-section { margin-top: 22px; padding-top: 16px; border-top: 1px solid var(--border); }
+.lightshift-mode { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; }
+.sidebar .lightshift-mode label { display: inline-flex; align-items: center; gap: 6px; margin: 0; cursor: pointer; }
+.sidebar .lightshift-mode input[type="radio"] { width: auto; margin: 0; accent-color: var(--accent); }
+#lightshift-controls { margin-top: 16px; }
+#lightshift-controls[hidden] { display: none; }
+.lightshift-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 12px; }
+.sidebar .lightshift-fields .parameter-field label { min-height: 30px; margin: 0 0 6px; }
+.sidebar #ls_sigma_minus[readonly] { background: #edf2f7; color: #65758a; cursor: default; }
+.sidebar .lightshift-fields input.invalid-polarization { border-color: #d84a4a; background: #fff5f5; }

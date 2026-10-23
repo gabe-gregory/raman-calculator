@@ -1,0 +1,8 @@
+Invalid inputs: [('ω01', nan), ('ω12', nan), ('ω23', nan), ('ω34', nan), ('ω45', nan)]
+ω/(2π) = 3633539.4631309444
+ω0/(2π) = 2630000.0
+ω01/(2π) = nan
+ω12/(2π) = nan
+ω23/(2π) = nan
+terms = [nan, nan, nan]
+INVALID FIRST-PASS RABI: +5/2<->-1/2, Ω=nan
